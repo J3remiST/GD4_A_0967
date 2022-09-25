@@ -14,6 +14,15 @@
         $phonenum = $_POST['phonenum'];
         $membership = $_POST['membership'];
 
+        // Check Unik Phonenum 
+        $check_phonenum=mysqli_num_rows(mysqli_query($con, "SELECT phonenum FROM users WHERE phonenum='$phonenum'"));
+
+            if ($check_phonenum > 0) {
+                echo
+                '<script> alert("Phone number sudah digunakan. Masukan Phone number baru.");
+                window.location = "../page/registerPage.php"<script>';
+            }
+
         // Melakukan insert ke databse dengan query dibawah ini
         $query = mysqli_query($con,
             "INSERT INTO users(email, password, name, phonenum, membership)
