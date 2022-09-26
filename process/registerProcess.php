@@ -15,12 +15,15 @@
         $membership = $_POST['membership'];
 
         // Check Unik Phonenum 
-        $check_phonenum=mysqli_num_rows(mysqli_query($con, "SELECT phonenum FROM users WHERE phonenum='$phonenum'"));
-
-            if ($check_phonenum > 0) {
-                echo
-                '<script> alert("Phone number sudah digunakan. Masukan Phone number baru.");
-                window.location = "../page/registerPage.php"<script>';
+        $query = mysqli_query($con, "SELECT * FROM users WHERE phonenum='$phonenum'") or die(mysqli_error($con));
+            if (mysqli_num_rows($query) != 0) {
+                $data = mysqli_fetch_assoc($query);
+                if($data['phonenum'] == $phonenum) {
+                    echo
+                        '<script>
+                        alert("Phone number telah digunakan sebelumnya. Masukkan Phone number lain !!"); window.location = "../page/registerPage.php"
+                        </script>' ;
+                }
             }
 
         // Melakukan insert ke databse dengan query dibawah ini
